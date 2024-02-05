@@ -1,0 +1,60 @@
+package utilities;
+
+import io.appium.java_client.android.AndroidDriver;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class MobileTest {
+
+    public static void main(String[] args) throws MalformedURLException, InterruptedException {
+
+        System.out.println("-----> Mobile Testing...");
+        URL url = new URL("http://0.0.0.0:4723/wd/hub");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        //   capabilities.setPlatform(); //And
+        //  capabilities.setVersion();  // version
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("platformVersion", "12");
+
+
+        //   capabilities.setCapability("deviceName", "your_device_name");
+
+        AndroidDriver driver = new AndroidDriver(url, capabilities);
+
+        System.out.println("---> Phone " + driver.currentActivity());
+        System.out.println("---> Phone" + driver.getCurrentPackage());
+
+
+        driver.openNotifications();
+
+        Thread.sleep(5000);
+
+        Thread.sleep(5000);
+        driver.findElement(By.xpath("//android.widget.TextView[@text=\"Notification settings\"]")).click();
+
+        Thread.sleep(5000);
+
+        driver.activateApp("com.android.settings");
+
+        System.out.println("---> Setting " + driver.currentActivity());
+        System.out.println("---> " + driver.getCurrentPackage());
+
+        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Search settings\"]")).click();
+        Thread.sleep(5000);
+
+        driver.findElement
+                (By.xpath("//android.widget.LinearLayout/android.widget.AutoCompleteTextView[@text='Search']")).click();
+        Thread.sleep(5000);
+        driver.findElement
+                        (By.xpath("//android.widget.LinearLayout/android.widget.AutoCompleteTextView[@text='Search']"))
+                .sendKeys("Connection");
+
+
+    }
+}
